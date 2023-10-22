@@ -9,6 +9,4 @@ const rootReducer = combineReducers({
     todoLists: todoListsReducer
 })
 
-console.log(rootReducer)
-
 export default rootReducer
