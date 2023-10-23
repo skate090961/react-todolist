@@ -1,4 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {TextField} from "@mui/material";
+import s from './EditableTitle.module.scss'
 
 type EditableTitlePropsType = {
     title: string
@@ -30,10 +32,11 @@ const EditableTitle: React.FC<EditableTitlePropsType> = ({
     }
 
     return (
-        <div>
+        <div className={s.root}>
             {
                 isShowEdit
-                    ? <input
+                    ? <TextField
+                        variant={'standard'}
                         value={value}
                         onChange={changeInputHandler}
                         onBlur={addTitleHandler}

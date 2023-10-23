@@ -6,6 +6,8 @@ import Task from "./Task/Task";
 import AddElement from "../AddElement/AddElement";
 import {addTaskAC} from "../../store/reducers/tasks-reducer/tasksReducer";
 import {FilterType} from "../../data/todoLists";
+import {Paper} from "@mui/material";
+import s from './Tasks.module.scss';
 
 type TasksPropsType = {
     todoId: string
@@ -39,7 +41,7 @@ const Tasks: React.FC<TasksPropsType> = ({
     }
 
     return (
-        <div>
+        <div className={s.tasks}>
             <AddElement onChange={addTask} placeholder={'...add task'}/>
             <ul>
                 {taskElements}

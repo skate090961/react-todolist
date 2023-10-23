@@ -1,4 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import {IconButton, TextField} from "@mui/material";
+import s from './AddElement.module.scss'
 
 type AddElementPropsType = {
     placeholder?: string
@@ -10,17 +13,17 @@ const AddElement: React.FC<AddElementPropsType> = ({
                                                        placeholder
                                                    }) => {
     const [value, setValue] = useState<string>('')
-    const [error, setError] = useState<boolean>(false)
+    const [isError, setIsError] = useState<boolean>(false)
     const changeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
-        setError(false)
+        setIsError(false)
     }
     const addElementHandler = () => {
         if (value.trim()) {
             onChange(value)
             setValue('')
         } else {
-            setError(true)
+            setIsError(true)
         }
     }
     const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -32,23 +35,36 @@ const AddElement: React.FC<AddElementPropsType> = ({
     const isDisableButton = minLength || maxLength
 
     return (
-        <>
-            <div>
-                <input
+        <div>
+            <div className={s.root}>
+                <TextField
+                    error={isError}
+                    variant="outlined"
+                    size={"small"}
+
                     value={value}
                     onChange={changeInputHandler}
                     onKeyDown={handleKeyPress}
                     placeholder={placeholder}
                 />
-                <button
+                <IconButton
                     disabled={isDisableButton}
                     onClick={addElementHandler}
-                >+</button>
+                    color={"primary"}
+                    size={"large"}
+                >
+                    <AddBoxIcon style={{fontSize: 30}}/>
+                </IconButton>
             </div>
-            {error && <div>Incorrect title</div>}
-            {maxLength && <div>Title is too long</div>}
-        </>
-    );
+            {
+                isError && <span className={s.error_text}>Incorrect title</span>
+            }
+            {
+                maxLength && <span className={s.error_text}>Title is too long</span>
+            }
+        </div>
+    )
+        ;
 };
 
 export default AddElement;

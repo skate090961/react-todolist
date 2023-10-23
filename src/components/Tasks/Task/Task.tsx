@@ -3,6 +3,9 @@ import {TaskType} from "../../../data/tasks";
 import EditableTitle from "../../EditableTitle/EditableTitle";
 import {useDispatch} from "react-redux";
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../../store/reducers/tasks-reducer/tasksReducer";
+import s from './Task.module.scss'
+import {Checkbox, IconButton} from "@mui/material";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 type TaskPropsType = {
     task: TaskType
@@ -28,10 +31,21 @@ const Task: React.FC<TaskPropsType> = ({
     }
 
     return (
-        <li>
-            <input type="checkbox" checked={isDone} onChange={changeTaskStatusHandler}/>
-            <EditableTitle title={title} onChangeTitle={changeTaskTitle}/>
-            <button onClick={removeTaskHandler}>X</button>
+        <li className={s.task}>
+            <div className={s.check_title}>
+                <Checkbox
+                    size="small"
+                    checked={isDone}
+                    onChange={changeTaskStatusHandler}
+                />
+                <EditableTitle title={title} onChangeTitle={changeTaskTitle}/>
+            </div>
+            <IconButton
+                onClick={removeTaskHandler}
+                color={"default"}
+            >
+                <DeleteOutlineOutlinedIcon/>
+            </IconButton>
         </li>
     );
 };

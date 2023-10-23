@@ -1,0 +1,12 @@
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+    .check_title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+}

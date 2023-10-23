@@ -5,6 +5,8 @@ import {TodoListsType} from "../../data/todoLists";
 import TodoList from "./TodoList/TodoList";
 import AddElement from "../AddElement/AddElement";
 import {addTodoListAC} from "../../store/reducers/todoLists-reducer/todoListsReducer";
+import {Grid} from "@mui/material";
+import s from './Todolists.module.scss'
 
 const TodoLists = () => {
     const todoLists = useSelector<RootReducerType, TodoListsType[]>(state => state.todoLists)
@@ -15,11 +17,16 @@ const TodoLists = () => {
     }
 
     return (
-        <div>
-            <AddElement onChange={addTodoList} placeholder={'...add todo'}/>
-            {todoListElements}
+        <div className={s.todoLists}>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <AddElement onChange={addTodoList} placeholder={'...add todo'}/>
+                </Grid>
+                {todoListElements}
+            </Grid>
         </div>
     );
+
 };
 
 export default TodoLists;
