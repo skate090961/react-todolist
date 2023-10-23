@@ -1,15 +1,15 @@
-import React from 'react';
-import {TodoListsType} from "../../../data/todoLists";
-import Tasks from "../../Tasks/Tasks";
-import TaskFilter from "../../TaskFilter/TaskFilter";
-import {useDispatch, useSelector} from "react-redux";
-import {changeTodoListTitleAC, removeTodoListAC} from "../../../store/reducers/todoLists-reducer/todoListsReducer";
-import EditableTitle from "../../EditableTitle/EditableTitle";
-import {Grid, IconButton, Paper} from "@mui/material";
+import React from 'react'
+import {TodoListsType} from "../../../data/todoLists"
+import Tasks from "../../Tasks/Tasks"
+import TaskFilter from "../../TaskFilter/TaskFilter"
+import {useDispatch, useSelector} from "react-redux"
+import {changeTodoListTitleAC, removeTodoListAC} from "../../../store/reducers/todoLists-reducer/todoListsReducer"
+import EditableTitle from "../../EditableTitle/EditableTitle"
+import {Grid, IconButton, Paper} from "@mui/material"
 import s from './Todolist.module.scss'
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import {RootReducerType} from "../../../store/rootReducer";
-import {TaskType} from "../../../data/tasks";
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import {RootReducerType} from "../../../store/rootReducer"
+import {TaskType} from "../../../data/tasks"
 
 type TodoListPropsType = {
     todoList: TodoListsType
@@ -46,4 +46,4 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
     );
 };
 
-export default TodoList;
+export default React.memo(TodoList);

@@ -1,6 +1,6 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import {IconButton, TextField} from "@mui/material";
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
+import AddBoxIcon from '@mui/icons-material/AddBox'
+import {IconButton, TextField} from "@mui/material"
 import s from './AddElement.module.scss'
 
 type AddElementPropsType = {
@@ -64,7 +64,7 @@ const AddElement: React.FC<AddElementPropsType> = ({
             }
         </div>
     )
-        ;
-};
 
-export default AddElement;
+}
+
+export default AddElement

@@ -43,4 +43,4 @@ const TaskFilter: React.FC<TaskFilterPropsType> = ({
     );
 };
 
-export default TaskFilter
+export default React.memo(TaskFilter)

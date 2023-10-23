@@ -1,13 +1,12 @@
-import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {RootReducerType} from "../../store/rootReducer";
-import {TaskType} from "../../data/tasks";
-import Task from "./Task/Task";
-import AddElement from "../AddElement/AddElement";
-import {addTaskAC} from "../../store/reducers/tasks-reducer/tasksReducer";
-import {FilterType} from "../../data/todoLists";
-import {Paper} from "@mui/material";
-import s from './Tasks.module.scss';
+import React from 'react'
+import {useDispatch, useSelector} from "react-redux"
+import {RootReducerType} from "../../store/rootReducer"
+import {TaskType} from "../../data/tasks"
+import Task from "./Task/Task"
+import AddElement from "../AddElement/AddElement"
+import {addTaskAC} from "../../store/reducers/tasks-reducer/tasksReducer"
+import {FilterType} from "../../data/todoLists"
+import s from './Tasks.module.scss'
 
 type TasksPropsType = {
     todoId: string
@@ -47,7 +46,7 @@ const Tasks: React.FC<TasksPropsType> = ({
                 {taskElements}
             </ul>
         </div>
-    );
-};
+    )
+}
 
-export default Tasks;
+export default React.memo(Tasks)

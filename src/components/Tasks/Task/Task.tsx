@@ -50,4 +50,4 @@ const Task: React.FC<TaskPropsType> = ({
     );
 };
 
-export default Task;
+export default React.memo(Task);
