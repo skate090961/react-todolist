@@ -1,5 +1,5 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {TextField} from "@mui/material";
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
+import {TextField} from "@mui/material"
 import s from './EditableTitle.module.scss'
 
 type EditableTitlePropsType = {
@@ -49,4 +49,4 @@ const EditableTitle: React.FC<EditableTitlePropsType> = ({
     );
 };
 
-export default EditableTitle;
+export default React.memo(EditableTitle)

@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {TaskType} from "../../../data/tasks";
 import EditableTitle from "../../EditableTitle/EditableTitle";
 import {useDispatch} from "react-redux";
@@ -19,13 +19,12 @@ const Task: React.FC<TaskPropsType> = ({
     const {id, isDone, title} = task
     const dispatch = useDispatch()
 
-    const changeTaskTitle = (title: string) => {
+    const changeTaskTitle = useCallback((title: string) => {
         dispatch(changeTaskTitleAC(todoId, id, title))
-    }
+    }, [])
     const removeTaskHandler = () => {
         dispatch(removeTaskAC(todoId, id))
     }
-
     const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(changeTaskStatusAC(todoId, id, e.currentTarget.checked))
     }

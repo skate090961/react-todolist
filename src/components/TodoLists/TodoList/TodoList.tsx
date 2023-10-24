@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import {TodoListsType} from "../../../data/todoLists"
 import Tasks from "../../Tasks/Tasks"
-import TaskFilter from "../../TaskFilter/TaskFilter"
+import TaskFilter from "../../TasksFilter/TaskFilter"
 import {useDispatch, useSelector} from "react-redux"
 import {changeTodoListTitleAC, removeTodoListAC} from "../../../store/reducers/todoLists-reducer/todoListsReducer"
 import EditableTitle from "../../EditableTitle/EditableTitle"
@@ -21,12 +21,12 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
 
     const dispatch = useDispatch()
 
-    const removeTodoList = () => {
+    const removeTodoList = useCallback(() => {
         dispatch(removeTodoListAC(id))
-    }
-    const changeTodoListTitle = (title: string) => {
+    }, [])
+    const changeTodoListTitle = useCallback((title: string) => {
         dispatch(changeTodoListTitleAC(id, title))
-    }
+    }, [])
 
     return (
         <Grid item xs={12} sm={6} md={4} lg={3}>

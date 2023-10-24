@@ -67,4 +67,4 @@ const AddElement: React.FC<AddElementPropsType> = ({
 
 }
 
-export default AddElement
+export default React.memo(AddElement)

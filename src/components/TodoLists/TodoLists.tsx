@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../../store/rootReducer";
 import {TodoListsType} from "../../data/todoLists";
@@ -12,9 +12,9 @@ const TodoLists = () => {
     const todoLists = useSelector<RootReducerType, TodoListsType[]>(state => state.todoLists)
     const todoListElements = todoLists.map(todo => <TodoList key={todo.id} todoList={todo}/>)
     const dispatch = useDispatch()
-    const addTodoList = (title: string) => {
+    const addTodoList = useCallback((title: string) => {
         dispatch(addTodoListAC(title))
-    }
+    }, [])
 
     return (
         <div className={s.todoLists}>
