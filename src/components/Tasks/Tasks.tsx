@@ -6,6 +6,8 @@ import Task from "./Task/Task"
 import AddElement from "../AddElement/AddElement"
 import {addTaskAC} from "../../store/reducers/tasks-reducer/tasksReducer"
 import {FilterType} from "../../data/todoLists"
+import TaskFilter from "../TasksFilter/TaskFilter"
+import s from './Tasks.module.scss'
 
 type TasksPropsType = {
     todoId: string
@@ -39,13 +41,14 @@ const Tasks: React.FC<TasksPropsType> = ({
     }, [])
 
     return (
-        <div>
+        <div className={s.tasks}>
             <div>
                 <AddElement onChange={addTask} placeholder={'...add task'}/>
                 <ul>
                     {taskElements}
                 </ul>
             </div>
+            {tasks.length > 0 && <TaskFilter todoId={todoId} filter={filter}/>}
         </div>
     )
 }

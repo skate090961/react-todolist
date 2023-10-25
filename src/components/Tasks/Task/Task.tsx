@@ -42,6 +42,7 @@ const Task: React.FC<TaskPropsType> = ({
             <IconButton
                 onClick={removeTaskHandler}
                 color={"default"}
+                sx={{'&:hover': {color: '#d32f2f'}}}
             >
                 <DeleteOutlineOutlinedIcon/>
             </IconButton>

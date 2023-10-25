@@ -1,15 +1,12 @@
 import React, {useCallback} from 'react'
 import {TodoListsType} from "../../../data/todoLists"
 import Tasks from "../../Tasks/Tasks"
-import TaskFilter from "../../TasksFilter/TaskFilter"
-import {useDispatch, useSelector} from "react-redux"
+import {useDispatch} from "react-redux"
 import {changeTodoListTitleAC, removeTodoListAC} from "../../../store/reducers/todoLists-reducer/todoListsReducer"
 import EditableTitle from "../../EditableTitle/EditableTitle"
 import {Grid, IconButton, Paper} from "@mui/material"
 import s from './Todolist.module.scss'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
-import {RootReducerType} from "../../../store/rootReducer"
-import {TaskType} from "../../../data/tasks"
 
 type TodoListPropsType = {
     todoList: TodoListsType
@@ -17,7 +14,6 @@ type TodoListPropsType = {
 
 const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
     const {id, title, filter} = todoList
-    const tasks = useSelector<RootReducerType, TaskType[]>(state => state.tasks[id])
 
     const dispatch = useDispatch()
 
@@ -31,16 +27,16 @@ const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {
     return (
         <Grid item xs={12} sm={6} md={4} lg={3}>
             <Paper elevation={4} className={s.todolist}>
-                <div className={s.header_tasks}>
                     <div className={s.header}>
                         <EditableTitle title={title} onChangeTitle={changeTodoListTitle}/>
-                        <IconButton onClick={removeTodoList} color={"error"}>
+                        <IconButton onClick={removeTodoList}
+                                    color={"default"}
+                                    sx={{'&:hover': {color: '#d32f2f'}}}
+                        >
                             <DeleteOutlineOutlinedIcon style={{fontSize: 30}}/>
                         </IconButton>
                     </div>
                     <Tasks todoId={id} filter={filter}/>
-                </div>
-                {tasks.length > 0 && <TaskFilter todoId={id} filter={filter}/>}
             </Paper>
         </Grid>
     );

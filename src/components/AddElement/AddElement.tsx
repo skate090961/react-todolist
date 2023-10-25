@@ -64,7 +64,6 @@ const AddElement: React.FC<AddElementPropsType> = ({
             }
         </div>
     )
-
 }
 
 export default React.memo(AddElement)
