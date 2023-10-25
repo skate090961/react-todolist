@@ -1,53 +1,57 @@
 import React, {ChangeEvent, useCallback} from 'react';
 import {TaskType} from "../../../data/tasks";
 import EditableTitle from "../../EditableTitle/EditableTitle";
-import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../../store/reducers/tasks-reducer/tasksReducer";
 import s from './Task.module.scss'
 import {Checkbox, IconButton} from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 type TaskPropsType = {
     task: TaskType
-    todoId: string
+    changeTaskTitle: (taskId: string, title: string) => void
+    removeTask: (taskId: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
 const Task: React.FC<TaskPropsType> = ({
                                            task,
-                                           todoId
+                                           changeTaskTitle,
+                                           removeTask,
+                                           changeTaskStatus
                                        }) => {
-    const {id, isDone, title} = task
-    const dispatch = useDispatch()
+        const {id, isDone, title} = task
 
-    const changeTaskTitle = useCallback((title: string) => {
-        dispatch(changeTaskTitleAC(todoId, id, title))
-    }, [])
-    const removeTaskHandler = () => {
-        dispatch(removeTaskAC(todoId, id))
-    }
-    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(changeTaskStatusAC(todoId, id, e.currentTarget.checked))
-    }
+        const changeTaskTitleHandler = useCallback((title: string) => {
+            changeTaskTitle(id, title)
+        }, [changeTaskTitle])
 
-    return (
-        <li className={s.task}>
-            <div className={s.check_title}>
-                <Checkbox
-                    size="small"
-                    checked={isDone}
-                    onChange={changeTaskStatusHandler}
-                />
-                <EditableTitle title={title} onChangeTitle={changeTaskTitle}/>
-            </div>
-            <IconButton
-                onClick={removeTaskHandler}
-                color={"default"}
-                sx={{'&:hover': {color: '#d32f2f'}}}
-            >
-                <DeleteOutlineOutlinedIcon/>
-            </IconButton>
-        </li>
-    );
-};
+        const removeTaskHandler = useCallback(() => {
+            removeTask(id)
+        }, [removeTask])
+
+        const changeTaskStatusHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+            changeTaskStatus(id, e.currentTarget.checked)
+        }, [changeTaskStatus])
+
+        return (
+            <li className={s.task}>
+                <div className={s.check_title}>
+                    <Checkbox
+                        size="small"
+                        checked={isDone}
+                        onChange={changeTaskStatusHandler}
+                    />
+                    <EditableTitle title={title} onChangeTitle={changeTaskTitleHandler}/>
+                </div>
+                <IconButton
+                    onClick={removeTaskHandler}
+                    color={"default"}
+                    sx={{'&:hover': {color: '#d32f2f'}}}
+                >
+                    <DeleteOutlineOutlinedIcon/>
+                </IconButton>
+            </li>
+        );
+    }
+;
 
 export default React.memo(Task);

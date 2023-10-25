@@ -4,7 +4,12 @@ import {RootReducerType} from "../../store/rootReducer"
 import {TaskType} from "../../data/tasks"
 import Task from "./Task/Task"
 import AddElement from "../AddElement/AddElement"
-import {addTaskAC} from "../../store/reducers/tasks-reducer/tasksReducer"
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC
+} from "../../store/reducers/tasks-reducer/tasksReducer"
 import {FilterType} from "../../data/todoLists"
 import TaskFilter from "../TasksFilter/TaskFilter"
 import s from './Tasks.module.scss'
@@ -19,6 +24,17 @@ const Tasks: React.FC<TasksPropsType> = ({
                                              filter
                                          }) => {
     const tasks = useSelector<RootReducerType, TaskType[]>(state => state.tasks[todoId])
+    const dispatch = useDispatch()
+
+    const changeTaskTitle = useCallback((taskId: string, title: string) => {
+        dispatch(changeTaskTitleAC(todoId, taskId, title))
+    }, [])
+    const removeTask = useCallback((taskId: string) => {
+        dispatch(removeTaskAC(todoId, taskId))
+    }, [])
+    const changeTaskStatus = useCallback((taskId: string, isDone: boolean) => {
+        dispatch(changeTaskStatusAC(todoId, taskId, isDone))
+    }, [])
 
     const changeTaskFilter = useCallback((filter: FilterType): TaskType[] => {
         switch (filter) {
@@ -33,8 +49,13 @@ const Tasks: React.FC<TasksPropsType> = ({
 
     const filteredTask = changeTaskFilter(filter)
 
-    const taskElements = filteredTask.map(task => <Task key={task.id} task={task} todoId={todoId}/>)
-    const dispatch = useDispatch()
+    const taskElements = filteredTask.map(task => <Task
+        key={task.id}
+        task={task}
+        changeTaskTitle={changeTaskTitle}
+        removeTask={removeTask}
+        changeTaskStatus={changeTaskStatus}
+    />)
 
     const addTask = useCallback((title: string) => {
         dispatch(addTaskAC(todoId, title))
