@@ -1,22 +1,19 @@
 import {FilterType} from "../../data/todoLists"
 import React from "react"
-import {useDispatch} from "react-redux"
-import {changeTodoListFilterAC} from "../../store/reducers/todoLists-reducer/todoListsReducer"
 import {Button} from "@mui/material"
 import s from './TaskFilter.module.scss'
 
 type TaskFilterPropsType = {
     filter: FilterType
-    todoId: string
+    changeFilter: (filter: FilterType) => void
 }
 
 const TaskFilter: React.FC<TaskFilterPropsType> = ({
                                                        filter,
-                                                       todoId
+                                                       changeFilter
                                                    }) => {
-    const dispatch = useDispatch()
     const filterTaskHandler = (filter: FilterType) => {
-        dispatch(changeTodoListFilterAC(todoId, filter))
+        changeFilter(filter)
     }
     const filterStyle = (CurrentFilter: FilterType) => {
         return filter === CurrentFilter ? "contained" : "outlined"

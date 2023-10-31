@@ -1,14 +1,14 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import {IconButton, TextField} from "@mui/material"
-import s from './AddElement.module.scss'
+import s from './AddItemForm.module.scss'
 
 type AddElementPropsType = {
     placeholder?: string
     onChange: (value: string) => void
 }
 
-const AddElement: React.FC<AddElementPropsType> = ({
+const AddItemForm: React.FC<AddElementPropsType> = ({
                                                        onChange,
                                                        placeholder
                                                    }) => {
@@ -66,4 +66,4 @@ const AddElement: React.FC<AddElementPropsType> = ({
     )
 }
 
-export default React.memo(AddElement)
+export default React.memo(AddItemForm)

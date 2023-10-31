@@ -1,32 +1,36 @@
+import type {Meta, StoryObj} from '@storybook/react'
 import {action} from '@storybook/addon-actions'
 import Task from "./Task";
-import {Provider} from "react-redux";
-import {store} from "../../../store/store";
+import {TodoListContainerDecorator} from "../../../../.storybook/decorators/TodoListContainerDecorator";
 
-export default {
-    title: 'Task Component',
+const meta: Meta<typeof Task> = {
+    title: 'TASKS/Task',
     component: Task,
+    tags: ['autodocs'],
+    decorators: [TodoListContainerDecorator],
+    argTypes: {
+        removeTask: {
+            description: 'Remove Button clicked changed inside Task'
+        },
+        changeTaskTitle: {
+            description: 'Title changed inside Task'
+        },
+        changeTaskStatus: {
+            description: 'Status changed inside Task'
+        },
+        task: {id: 'id_1', title: 'JS', isDone: false}
+    },
 }
 
-const removeTask = action('Task is removed')
-const changeTaskStatus = action('Status of task changed')
-const changeTaskTitle = action('Title of task changed')
+export default meta;
 
-export const TaskBaseExample = () => {
-    return (
-        <Provider store={store}>
-            <Task
-                task={{id: '1', title: 'StoryBook', isDone: true}}
-                removeTask={removeTask}
-                changeTaskStatus={changeTaskStatus}
-                changeTaskTitle={changeTaskTitle}
-            />
-            <Task
-                task={{id: '2', title: 'React', isDone: false}}
-                removeTask={removeTask}
-                changeTaskStatus={changeTaskStatus}
-                changeTaskTitle={changeTaskTitle}
-            />
-        </Provider>
-    )
+type Story = StoryObj<typeof Task>
+
+export const TaskStory: Story = {
+    args: {
+        task: {id: 'id_1', title: 'CSS', isDone: true},
+        removeTask: action('task removed'),
+        changeTaskTitle: action('title of task changed'),
+        changeTaskStatus: action('status of task changed')
+    },
 }
