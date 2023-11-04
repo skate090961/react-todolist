@@ -1,11 +1,11 @@
-import React, {ChangeEvent, useCallback} from 'react';
-import {TaskType} from "../../../data/tasks";
-import EditableTitle from "../../EditableTitle/EditableTitle";
+import React, {ChangeEvent, useCallback} from 'react'
+import {TaskType} from "../../../data/tasks"
+import EditableTitle from "../../EditableTitle/EditableTitle"
 import s from './Task.module.scss'
-import {Checkbox, IconButton} from "@mui/material";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import {Checkbox, IconButton} from "@mui/material"
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined"
 
-type TaskPropsType = {
+export type TaskPropsType = {
     task: TaskType
     changeTaskTitle: (taskId: string, title: string) => void
     removeTask: (taskId: string) => void
@@ -52,6 +52,6 @@ const Task: React.FC<TaskPropsType> = ({
             </li>
         );
     }
-;
 
-export default React.memo(Task);
+
+export default React.memo(Task)

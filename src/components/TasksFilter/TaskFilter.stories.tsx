@@ -1,13 +1,14 @@
 import type {Meta, StoryObj} from '@storybook/react'
 import TaskFilter from "./TaskFilter";
 import {action} from "@storybook/addon-actions";
-import {TodoListContainerDecorator} from "../../../.storybook/decorators/TodoListContainerDecorator";
 
 const meta: Meta<typeof TaskFilter> = {
     title: 'TASKS/Task Filter',
     component: TaskFilter,
     tags: ['autodocs'],
-    decorators: [TodoListContainerDecorator],
+    parameters: {
+      layout: 'centered'
+    },
     argTypes: {
         filter: TaskFilter,
         changeFilter: {

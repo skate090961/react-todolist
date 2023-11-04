@@ -6,21 +6,19 @@ const meta: Meta<typeof EditableTitle> = {
     title: 'TODOLISTS/EditableTitle',
     component: EditableTitle,
     tags: ['autodocs'],
+    parameters: {
+        layout: 'centered'
+    },
     argTypes: {
-        onChangeTitle: {
-            description: 'Title changed',
-        },
-        title: {
-            description: 'Start title empty. Add title push button set string.'
-        }
+    },
+    args: {
+        title: 'DOUBLE CLICK ME TO EDIT',
+        onChangeTitle: action('Title changed')
     },
 }
 
 export default meta;
 type Story = StoryObj<typeof EditableTitle>
 
-export const EditableTitleStory: Story = {
-    args: {
-        onChangeTitle: action('Title changed')
-    },
-}
+export const EditableTitleStory: Story = {}
+

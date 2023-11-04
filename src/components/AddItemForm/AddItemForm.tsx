@@ -3,7 +3,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox'
 import {IconButton, TextField} from "@mui/material"
 import s from './AddItemForm.module.scss'
 
-type AddElementPropsType = {
+export type AddElementPropsType = {
     placeholder?: string
     onChange: (value: string) => void
 }
