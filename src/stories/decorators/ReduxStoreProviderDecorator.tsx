@@ -1,8 +1,9 @@
 import {Provider} from "react-redux";
 import {legacy_createStore} from "redux";
-import rootReducer, {RootReducerType} from "../../src/store/rootReducer";
+
 import {v1} from "uuid";
 import React from "react";
+import rootReducer, {RootReducerType} from "../../store/rootReducer";
 
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => {
     const initialGlobalState = {
