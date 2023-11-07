@@ -1,30 +1,39 @@
 import {instance} from "./instance";
 
-export type TaskEntityType = {
-    addedDate: string
-    deadline: string
-    description: string
-    id: string
-    order: number
-    priority: number
-    startDate: string
-    status: number
-    title: string
-    todoListId: string
+export enum TaskStatuses {
+    New,
+    InProgress,
+    Completed,
+    Draft
 }
 
-type UpdateTaskModelType = {
+export enum TaskPriorities {
+    Low,
+    Middle,
+    Hi,
+    Urgently,
+    Later
+}
+
+export type UpdateTaskModelType = {
     title: string
     description: string
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
+}
+
+export type TaskType = UpdateTaskModelType & {
+    addedDate: string
+    id: string
+    order: number
+    todoListId: string
 }
 
 type GetTasksResponseType = {
     error: string | null
-    items: TaskEntityType[]
+    items: TaskType[]
     totalCount: number
 }
 
@@ -35,7 +44,9 @@ type ResponseType<D = {}> = {
     resultCode: number
 }
 
-type CreateTaskResponseType = { item: TaskEntityType }
+type UpdateTaskType = ResponseType<{ item: TaskType }>
+
+type CreateTaskResponseType = { item: TaskType }
 
 
 export const tasksAPI = {
@@ -50,7 +61,6 @@ export const tasksAPI = {
         return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-        const payload = model
-        return instance.put(`/todo-lists/${todolistId}/tasks/${taskId}`, payload)
+        return instance.put<UpdateTaskType>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 }

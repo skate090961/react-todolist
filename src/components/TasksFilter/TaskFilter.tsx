@@ -1,7 +1,7 @@
-import {FilterType} from "../../data/todoLists"
 import React from "react"
 import {Button} from "@mui/material"
 import s from './TaskFilter.module.scss'
+import {FilterType} from "../../store/reducers/todoLists-reducer/todoListsReducer";
 
 type TaskFilterPropsType = {
     filter: FilterType

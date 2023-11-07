@@ -1,15 +1,15 @@
 import React, {ChangeEvent, useCallback} from 'react'
-import {TaskType} from "../../../data/tasks"
 import EditableTitle from "../../EditableTitle/EditableTitle"
 import s from './Task.module.scss'
 import {Checkbox, IconButton} from "@mui/material"
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined"
+import {TaskStatuses, TaskType} from "../../../api/tasks-api";
 
 export type TaskPropsType = {
     task: TaskType
     changeTaskTitle: (taskId: string, title: string) => void
     removeTask: (taskId: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    changeTaskStatus: (taskId: string, status: TaskStatuses) => void
 }
 
 const Task: React.FC<TaskPropsType> = ({
@@ -18,7 +18,7 @@ const Task: React.FC<TaskPropsType> = ({
                                            removeTask,
                                            changeTaskStatus
                                        }) => {
-        const {id, isDone, title} = task
+        const {id, status, title} = task
 
         const changeTaskTitleHandler = useCallback((title: string) => {
             changeTaskTitle(id, title)
@@ -29,7 +29,7 @@ const Task: React.FC<TaskPropsType> = ({
         }, [removeTask])
 
         const changeTaskStatusHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-            changeTaskStatus(id, e.currentTarget.checked)
+            changeTaskStatus(id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New)
         }, [changeTaskStatus])
 
         return (
@@ -37,7 +37,7 @@ const Task: React.FC<TaskPropsType> = ({
                 <div className={s.check_title}>
                     <Checkbox
                         size="small"
-                        checked={isDone}
+                        checked={status === TaskStatuses.Completed}
                         onChange={changeTaskStatusHandler}
                     />
                     <EditableTitle title={title} onChangeTitle={changeTaskTitleHandler}/>

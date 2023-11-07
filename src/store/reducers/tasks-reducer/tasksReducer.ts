@@ -1,8 +1,13 @@
-import {tasks, TasksType} from "../../../data/tasks";
+import {tasks} from "../../../data/tasks";
 import {v1} from "uuid";
 import {addTodoListAC, removeTodoListAC} from "../todoLists-reducer/todoListsReducer";
+import {TaskStatuses, TaskType} from "../../../api/tasks-api";
 
 const initialState = tasks
+
+export type TasksType = {
+    [key: string]: TaskType[]
+}
 
 type ActionsTypes =
     ReturnType<typeof addTaskAC> |
@@ -18,7 +23,18 @@ export const tasksReducer = (state: TasksType = initialState, action: ActionsTyp
             return {
                 ...state,
                 [action.todoId]: [
-                    {id: v1(), title: action.title, isDone: false},
+                    {
+                        id: v1(),
+                        title: action.title,
+                        todoListId: action.todoId,
+                        addedDate: '',
+                        deadline: '',
+                        description: '',
+                        order: 0,
+                        priority: 0,
+                        startDate: '',
+                        status: TaskStatuses.New,
+                    },
                     ...state[action.todoId]
                 ]
             }
@@ -38,7 +54,7 @@ export const tasksReducer = (state: TasksType = initialState, action: ActionsTyp
                 [action.todoId]:
                     state[action.todoId].map(task =>
                         task.id === action.taskId
-                            ? {...task, isDone: action.isDone}
+                            ? {...task, status: action.status}
                             : task
                     )
             }
@@ -72,11 +88,11 @@ export const changeTaskTitleAC = (todoId: string, taskId: string, title: string)
     taskId,
     title
 } as const)
-export const changeTaskStatusAC = (todoId: string, taskId: string, isDone: boolean) => ({
+export const changeTaskStatusAC = (todoId: string, taskId: string, status: TaskStatuses) => ({
     type: 'CHANGE-TASK-STATUS',
     todoId,
     taskId,
-    isDone
+    status
 } as const)
 export const removeTaskAC = (todoId: string, taskId: string) => ({
     type: 'REMOVE-TASK',

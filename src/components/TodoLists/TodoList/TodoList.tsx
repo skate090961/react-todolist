@@ -1,15 +1,18 @@
 import React, {useCallback} from 'react'
-import {TodoListsType} from "../../../data/todoLists"
 import Tasks from "../../Tasks/Tasks"
 import {useDispatch} from "react-redux"
-import {changeTodoListTitleAC, removeTodoListAC} from "../../../store/reducers/todoLists-reducer/todoListsReducer"
+import {
+    changeTodoListTitleAC,
+    removeTodoListAC,
+    TodoListDomainType
+} from "../../../store/reducers/todoLists-reducer/todoListsReducer"
 import EditableTitle from "../../EditableTitle/EditableTitle"
 import {Grid, IconButton, Paper} from "@mui/material"
 import s from './Todolist.module.scss'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 
 type TodoListPropsType = {
-    todoList: TodoListsType
+    todoList: TodoListDomainType
 }
 
 const TodoList: React.FC<TodoListPropsType> = ({todoList}) => {

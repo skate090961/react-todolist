@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react'
 import {useDispatch, useSelector} from "react-redux"
 import {RootReducerType} from "../../store/rootReducer"
-import {TaskType} from "../../data/tasks"
 import Task from "./Task/Task"
 import AddElement from "../AddItemForm/AddItemForm"
 import {
@@ -10,10 +9,10 @@ import {
     changeTaskTitleAC,
     removeTaskAC
 } from "../../store/reducers/tasks-reducer/tasksReducer"
-import {FilterType} from "../../data/todoLists"
 import TaskFilter from "../TasksFilter/TaskFilter"
 import s from './Tasks.module.scss'
-import {changeTodoListFilterAC} from "../../store/reducers/todoLists-reducer/todoListsReducer";
+import {changeTodoListFilterAC, FilterType} from "../../store/reducers/todoLists-reducer/todoListsReducer";
+import {TaskStatuses, TaskType} from "../../api/tasks-api";
 
 type TasksPropsType = {
     todoId: string
@@ -33,8 +32,8 @@ const Tasks: React.FC<TasksPropsType> = ({
     const removeTask = useCallback((taskId: string) => {
         dispatch(removeTaskAC(todoId, taskId))
     }, [])
-    const changeTaskStatus = useCallback((taskId: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(todoId, taskId, isDone))
+    const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses) => {
+        dispatch(changeTaskStatusAC(todoId, taskId, status))
     }, [])
     const changeTaskFilter = useCallback((filter: FilterType) => {
         dispatch(changeTodoListFilterAC(todoId, filter))
@@ -43,9 +42,9 @@ const Tasks: React.FC<TasksPropsType> = ({
     const tasksFilter = useCallback((filter: FilterType): TaskType[] => {
         switch (filter) {
             case 'active':
-                return tasks.filter(t => !t.isDone)
+                return tasks.filter(t => t.status === TaskStatuses.New)
             case 'completed':
-                return tasks.filter(t => t.isDone)
+                return tasks.filter(t => t.status === TaskStatuses.Completed)
             default:
                 return tasks
         }

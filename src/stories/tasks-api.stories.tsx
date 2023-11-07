@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {TaskEntityType, tasksAPI} from "../api/tasks-api";
+import React, {useState} from "react";
+import {TaskType, tasksAPI, UpdateTaskModelType} from "../api/tasks-api";
 
 export default {
     title: 'API/Tasks'
 }
 
 export const GetTasks = () => {
-    const [state, setState] = useState<TaskEntityType[]>([])
+    const [state, setState] = useState<TaskType[]>([])
     const [todoListId, setTodoListId] = useState<string>('')
 
     const getTasksHandler = () => {
@@ -39,7 +39,7 @@ export const GetTasks = () => {
                 placeholder={'...add todolist id'}
             />
             <button onClick={getTasksHandler}>Get Tasks</button>
-            <div>{!state.length ? '' : tasksListRender}</div>
+            <div>{!state.length ? 'Tasks List is Empty' : tasksListRender}</div>
         </div>
     )
 }
@@ -47,14 +47,14 @@ export const GetTasks = () => {
 export const CreateTask = () => {
     const [state, setState] = useState<any>(null)
     const [todoListId, setTodoListId] = useState<string>('')
-    const [title, setTitle] = useState<string>('')
+    const [taskTitle, setTaskTitle] = useState<string>('')
 
     const createTasksHandler = () => {
-        tasksAPI.createTask(todoListId, title)
+        tasksAPI.createTask(todoListId, taskTitle)
             .then(res => {
                 setState(res.data)
             })
-        setTitle('')
+        setTaskTitle('')
     }
 
     return <div>
@@ -69,8 +69,8 @@ export const CreateTask = () => {
         <div>
             <label>Task Title: </label>
             <input
-                value={title}
-                onChange={(e) => setTitle(e.currentTarget.value)}
+                value={taskTitle}
+                onChange={(e) => setTaskTitle(e.currentTarget.value)}
                 placeholder={'...add task title'}
             />
         </div>
@@ -117,21 +117,64 @@ export const DeleteTask = () => {
 
 export const UpdateTask = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        const todoId = '0ef6edde-d530-49f9-be5d-79eadbdf5166'
-        const taskId = '697a88a2-3216-4b71-a448-bc7288ccc3fb'
-        const model = {
-            title: 'MAX !! NEW TITLE',
-            description: '',
-            status: 5,
-            priority: 1,
-            startDate: '2023-11-06T08:20:32.49',
-            deadline: '2023-11-06T08:20:32.49',
-        }
-        tasksAPI.updateTask(todoId, taskId, model)
+    const [todoListId, setTodoListId] = useState<string>('')
+    const [taskId, setTaskId] = useState<string>('')
+    const [taskModel, setTaskModel] = useState<UpdateTaskModelType>({
+        title: 'title',
+        description: 'description',
+        status: 0,
+        priority: 1,
+        startDate: '',
+        deadline: '',
+    })
+
+    const updateTaskHandler = () => {
+        tasksAPI.updateTask(todoListId, taskId, taskModel)
             .then(s => {
                 setState(s.data)
             })
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+    }
+    return (
+        <div>
+            <div style={{fontWeight: 'bold'}}>Find Task:</div>
+            <div>
+                <label>TodoList ID: </label>
+                <input onChange={e => setTodoListId(e.currentTarget.value)}/>
+            </div>
+            <div>
+                <label>Task ID: </label>
+                <input onChange={e => setTaskId(e.currentTarget.value)}/>
+            </div>
+            <div style={{marginTop: '10px', fontWeight: 'bold'}}>Update Task:</div>
+            <div>
+                <label>title: </label>
+                <input onChange={e => setTaskModel({...taskModel, title: e.currentTarget.value})}/>
+            </div>
+            <div>
+                <label>description: </label>
+                <input onChange={e => setTaskModel({...taskModel, description: e.currentTarget.value})}/>
+            </div>
+            <div>
+                <label>status: </label>
+                <input onChange={e => setTaskModel({...taskModel, status: Number(e.currentTarget.value)})}
+                       type="number"/>
+            </div>
+            <div>
+                <label>priority: </label>
+                <input onChange={e => setTaskModel({...taskModel, priority: Number(e.currentTarget.value)})}
+                       type="number"/>
+            </div>
+            <div>
+                <label>startDate: </label>
+                <input onChange={e => setTaskModel({...taskModel, startDate: e.currentTarget.value})} type="date"/>
+            </div>
+            <div>
+                <label>deadline: </label>
+                <input onChange={e => setTaskModel({...taskModel, deadline: e.currentTarget.value})} type="date"/>
+            </div>
+            <button onClick={updateTaskHandler}>Update Task</button>
+            <div>Response of Server: {JSON.stringify(state)}</div>
+        </div>
+    )
+
 }
