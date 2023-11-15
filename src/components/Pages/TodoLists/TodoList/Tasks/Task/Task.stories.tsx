@@ -2,8 +2,8 @@ import type {Meta, StoryObj} from '@storybook/react'
 import {action} from '@storybook/addon-actions'
 import Task from "./Task";
 import {useState} from "react";
-import {TaskStatuses} from "../../../api/tasks-api";
-import {tasks} from "../../../data/tasks";
+import {TaskStatuses} from "../../../../../../api/tasks-api";
+import {tasks} from "../../../../../../mocks/tasks";
 
 const meta: Meta<typeof Task> = {
     title: 'TASKS/Task',

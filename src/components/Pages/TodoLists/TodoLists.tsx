@@ -1,18 +1,27 @@
-import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {RootReducerType} from "../../store/rootReducer";
+import React, {useCallback, useEffect} from 'react';
+import {useSelector} from "react-redux";
+import {RootReducerType} from "../../../store/rootReducer";
 import TodoList from "./TodoList/TodoList";
-import AddElement from "../AddItemForm/AddItemForm";
-import {addTodoListAC, TodoListDomainType} from "../../store/reducers/todoLists-reducer/todoListsReducer";
+import AddElement from "../../Shared/AddItemForm/AddItemForm";
+import {
+    addTodoListTC,
+    fetchTodoListsTC,
+    TodoListDomainType
+} from "../../../store/reducers/todoLists-reducer/todoListsReducer";
 import {Grid} from "@mui/material";
 import s from './Todolists.module.scss'
+import {useAppDispatch} from "../../../store/store";
 
 const TodoLists = () => {
+    useEffect(() => {
+        dispatch(fetchTodoListsTC())
+    }, [])
+
     const todoLists = useSelector<RootReducerType, TodoListDomainType[]>(state => state.todoLists)
     const todoListElements = todoLists.map(todo => <TodoList key={todo.id} todoList={todo}/>)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const addTodoList = useCallback((title: string) => {
-        dispatch(addTodoListAC(title))
+        dispatch(addTodoListTC(title))
     }, [])
 
     return (

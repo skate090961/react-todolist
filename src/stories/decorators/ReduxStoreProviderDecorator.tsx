@@ -2,8 +2,8 @@ import {Provider} from "react-redux";
 import {legacy_createStore} from "redux";
 import React from "react";
 import rootReducer, {RootReducerType} from "../../store/rootReducer";
-import {tasks} from "../../data/tasks";
-import {todoLists} from "../../data/todoLists";
+import {tasks} from "../../mocks/tasks";
+import {todoLists} from "../../mocks/todoLists";
 
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => {
     const initialGlobalState = {

@@ -1,9 +1,9 @@
 import React, {ChangeEvent, useCallback} from 'react'
-import EditableTitle from "../../EditableTitle/EditableTitle"
+import EditableTitle from "../../../../../Shared/EditableTitle/EditableTitle"
 import s from './Task.module.scss'
 import {Checkbox, IconButton} from "@mui/material"
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined"
-import {TaskStatuses, TaskType} from "../../../api/tasks-api";
+import {TaskStatuses, TaskType} from "../../../../../../api/tasks-api";
 
 export type TaskPropsType = {
     task: TaskType

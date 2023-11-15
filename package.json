@@ -23,6 +23,7 @@
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.2",
     "sass": "^1.69.4",
     "typescript": "^4.4.2",
     "uuid": "^9.0.1",
@@ -78,5 +79,11 @@
     "start-server-and-test": "^2.0.1",
     "storybook": "7.5.1",
     "webpack": "5.89.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
   }
 }
+

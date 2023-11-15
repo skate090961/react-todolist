@@ -2,8 +2,8 @@ import React from 'react';
 import {AppBar, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import {useDispatch, useSelector} from "react-redux";
-import {toggleModeAC} from "../../store/reducers/mode-reducer/modeReducer";
-import {RootReducerType} from "../../store/rootReducer";
+import {toggleModeAC} from "../../../store/reducers/mode-reducer/modeReducer";
+import {RootReducerType} from "../../../store/rootReducer";
 import BedtimeOutlinedIcon from '@mui/icons-material/BedtimeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 

@@ -11,8 +11,8 @@ export const GetTasks = () => {
 
     const getTasksHandler = () => {
         tasksAPI.getTasks(todoListId)
-            .then(res => {
-                setState(res.data.items)
+            .then(items => {
+                setState(items)
             })
     }
 
@@ -51,8 +51,8 @@ export const CreateTask = () => {
 
     const createTasksHandler = () => {
         tasksAPI.createTask(todoListId, taskTitle)
-            .then(res => {
-                setState(res.data)
+            .then(item => {
+                setState(item)
             })
         setTaskTitle('')
     }

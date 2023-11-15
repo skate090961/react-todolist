@@ -1,18 +1,14 @@
-import React, {useCallback} from 'react'
-import {useDispatch, useSelector} from "react-redux"
-import {RootReducerType} from "../../store/rootReducer"
+import React, {useCallback, useEffect} from 'react'
+import {useSelector} from "react-redux"
+import {RootReducerType} from "../../../../../store/rootReducer"
 import Task from "./Task/Task"
-import AddElement from "../AddItemForm/AddItemForm"
-import {
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    removeTaskAC
-} from "../../store/reducers/tasks-reducer/tasksReducer"
-import TaskFilter from "../TasksFilter/TaskFilter"
+import AddElement from "../../../../Shared/AddItemForm/AddItemForm"
+import {addTaskTC, fetchTasksTC, removeTaskTC, updateTaskTC} from "../../../../../store/reducers/tasks-reducer/tasksReducer"
+import TaskFilter from "./TasksFilter/TaskFilter"
 import s from './Tasks.module.scss'
-import {changeTodoListFilterAC, FilterType} from "../../store/reducers/todoLists-reducer/todoListsReducer";
-import {TaskStatuses, TaskType} from "../../api/tasks-api";
+import {changeTodoListFilterAC, FilterType} from "../../../../../store/reducers/todoLists-reducer/todoListsReducer";
+import {TaskStatuses, TaskType} from "../../../../../api/tasks-api";
+import {useAppDispatch} from "../../../../../store/store";
 
 type TasksPropsType = {
     todoId: string
@@ -23,20 +19,26 @@ const Tasks: React.FC<TasksPropsType> = ({
                                              todoId,
                                              filter
                                          }) => {
+    useEffect(() => {
+        dispatch(fetchTasksTC(todoId))
+    }, [])
     const tasks = useSelector<RootReducerType, TaskType[]>(state => state.tasks[todoId])
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const changeTaskTitle = useCallback((taskId: string, title: string) => {
-        dispatch(changeTaskTitleAC(todoId, taskId, title))
+        dispatch(updateTaskTC(todoId, taskId, {title}))
     }, [])
     const removeTask = useCallback((taskId: string) => {
-        dispatch(removeTaskAC(todoId, taskId))
+        dispatch(removeTaskTC(todoId, taskId))
     }, [])
     const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses) => {
-        dispatch(changeTaskStatusAC(todoId, taskId, status))
+        dispatch(updateTaskTC(todoId, taskId, {status}))
     }, [])
     const changeTaskFilter = useCallback((filter: FilterType) => {
         dispatch(changeTodoListFilterAC(todoId, filter))
+    }, [])
+    const addTask = useCallback((title: string) => {
+        dispatch(addTaskTC(todoId, title))
     }, [])
 
     const tasksFilter = useCallback((filter: FilterType): TaskType[] => {
@@ -59,10 +61,6 @@ const Tasks: React.FC<TasksPropsType> = ({
         removeTask={removeTask}
         changeTaskStatus={changeTaskStatus}
     />)
-
-    const addTask = useCallback((title: string) => {
-        dispatch(addTaskAC(todoId, title))
-    }, [])
 
     return (
         <div className={s.tasks}>
