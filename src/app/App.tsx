@@ -1,14 +1,17 @@
 import React from 'react';
 import TodoLists from "../components/Pages/TodoLists/TodoLists";
 import Header from "../components/Layout/Header/Header";
-import {Container, CssBaseline, ThemeProvider} from "@mui/material";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import ThemeProvider from "@mui/private-theming/ThemeProvider";
 import {darkTheme, lightTheme} from "../assets/styles/themes";
 import {useSelector} from "react-redux";
-import {RootReducerType} from "../store/rootReducer";
+import {AppRootStateType} from "../store/rootReducer";
 import '../assets/styles/global.scss'
+import {CustomizedSnackbars} from "../components/Shared/ErrorSnackbar/ErrorSnackbar";
 
 const App = () => {
-    const isDarkMode = useSelector<RootReducerType, boolean>(state => state.mode.isDarkMode)
+    const isDarkMode = useSelector<AppRootStateType, boolean>(state => state.app.isDarkMode)
     const theme = isDarkMode ? darkTheme : lightTheme
 
     return (
@@ -18,6 +21,7 @@ const App = () => {
             <Container>
                 <TodoLists/>
             </Container>
+            <CustomizedSnackbars/>
         </ThemeProvider>
     )
 }

@@ -1,20 +1,23 @@
 import {instance} from "./instance";
+import {RESULT_CODE} from "./todoLists-api";
 
 export const tasksAPI = {
-    getTasks(todolistId: string) {
-        return instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks`)
-            .then(data => data.data.items)
+    async getTasks(todolistId: string) {
+        const response = await instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks`)
+        return response.data
     },
-    createTask(todolistId: string, title: string) {
+    async createTask(todolistId: string, title: string) {
         const payload = {title}
-        return instance.post<ResponseType<CreateTaskResponseType>>(`/todo-lists/${todolistId}/tasks`, payload)
-            .then(data => data.data.data.item)
+        const response = await instance.post<ResponseType<CreateTaskResponseType>>(`/todo-lists/${todolistId}/tasks`, payload)
+        return response.data
     },
-    deleteTask(todolistId: string, taskId: string) {
-        return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+    async deleteTask(todolistId: string, taskId: string) {
+        const response = await instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+        return response.data
     },
-    updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-        return instance.put<UpdateTaskType>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+    async updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+        const response = await instance.put<UpdateTaskType>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+        return response.data
     }
 }
 
@@ -57,7 +60,7 @@ type ResponseType<D = {}> = {
     data: D
     fieldsErrors: string[]
     messages: string[]
-    resultCode: number
+    resultCode: RESULT_CODE
 }
 type UpdateTaskType = ResponseType<{ item: TaskType }>
 type CreateTaskResponseType = { item: TaskType }

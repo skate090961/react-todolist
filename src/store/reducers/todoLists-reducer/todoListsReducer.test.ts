@@ -1,5 +1,5 @@
 import {
-    addTodoListAC,
+    addTodoListAC, changeTodoListEntityStatusAC,
     changeTodoListFilterAC,
     changeTodoListTitleAC,
     removeTodoListAC,
@@ -8,6 +8,7 @@ import {
     todoListsReducer
 } from "./todoListsReducer";
 import {todoLists} from "../../../mocks/todoLists";
+import {RequestStatusType} from "../app-reducer/appReducer";
 
 const startState: TodoListDomainType[] = todoLists
 const newTitle = 'TODOLIST TITLE'
@@ -52,4 +53,11 @@ test('todolist should be set to the array', () => {
     expect(endState.length).toBe(2)
     expect(endState[0].filter).toBe('all')
     expect(endState[1].filter).toBe('all')
+})
+test('correct entity status of todolist should be changed', () => {
+    const newStatus: RequestStatusType = 'loading'
+    const endState = todoListsReducer(startState, changeTodoListEntityStatusAC('todoId_1', newStatus))
+
+    expect(endState[0].entityStatus).toBe(newStatus)
+    expect(endState[1].entityStatus).toBe('idle')
 })

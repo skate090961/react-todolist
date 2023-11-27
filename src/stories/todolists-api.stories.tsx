@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {todoListsAPI, TodoListType} from "../api/todoLists-api";
+import {todoListsAPI, TodoListType} from "../API/todoLists-api";
 
 export default {
     title: 'API/TodoLists'

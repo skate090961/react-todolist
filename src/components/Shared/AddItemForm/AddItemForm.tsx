@@ -6,12 +6,14 @@ import s from './AddItemForm.module.scss'
 export type AddElementPropsType = {
     placeholder?: string
     onChange: (value: string) => void
+    disabled?: boolean
 }
 
 const AddItemForm: React.FC<AddElementPropsType> = ({
-                                                       onChange,
-                                                       placeholder
-                                                   }) => {
+                                                        onChange,
+                                                        placeholder,
+                                                        disabled = false
+                                                    }) => {
     const [value, setValue] = useState<string>('')
     const [isError, setIsError] = useState<boolean>(false)
     const changeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,9 +32,7 @@ const AddItemForm: React.FC<AddElementPropsType> = ({
         e.key === 'Enter' && addElementHandler()
     }
 
-    const minLength = value.length === 0
-    const maxLength = value.length > 30
-    const isDisableButton = minLength || maxLength
+    const isMinLength = value.length === 0
 
     return (
         <div>
@@ -46,9 +46,10 @@ const AddItemForm: React.FC<AddElementPropsType> = ({
                     onChange={changeInputHandler}
                     onKeyDown={handleKeyPress}
                     placeholder={placeholder}
+                    disabled={disabled}
                 />
                 <IconButton
-                    disabled={isDisableButton}
+                    disabled={isMinLength}
                     onClick={addElementHandler}
                     color={"primary"}
                     size={"large"}
@@ -58,9 +59,6 @@ const AddItemForm: React.FC<AddElementPropsType> = ({
             </div>
             {
                 isError && <span className={s.error_text}>Incorrect title</span>
-            }
-            {
-                maxLength && <span className={s.error_text}>Title is too long</span>
             }
         </div>
     )

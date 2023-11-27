@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react'
 import {action} from '@storybook/addon-actions'
 import Task from "./Task";
 import {useState} from "react";
-import {TaskStatuses} from "../../../../../../api/tasks-api";
+import {TaskStatuses} from "../../../../../../API/tasks-api";
 import {tasks} from "../../../../../../mocks/tasks";
 
 const meta: Meta<typeof Task> = {
@@ -41,6 +41,7 @@ const TaskToggle = () => {
         removeTask={action('remove task')}
         changeTaskTitle={(taskId, title) => setTask({...task, title: title})}
         changeTaskStatus={() => setTask({...task, status: TaskStatuses.Completed})}
+        todoListEntityStatus={'idle'}
     />
 }
 

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {TaskType, tasksAPI, UpdateTaskModelType} from "../api/tasks-api";
+import {TaskType, tasksAPI, UpdateTaskModelType} from "../API/tasks-api";
 
 export default {
     title: 'API/Tasks'
@@ -11,8 +11,8 @@ export const GetTasks = () => {
 
     const getTasksHandler = () => {
         tasksAPI.getTasks(todoListId)
-            .then(items => {
-                setState(items)
+            .then(data => {
+                setState(data.items)
             })
     }
 

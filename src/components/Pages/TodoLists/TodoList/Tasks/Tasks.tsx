@@ -1,30 +1,40 @@
 import React, {useCallback, useEffect} from 'react'
 import {useSelector} from "react-redux"
-import {RootReducerType} from "../../../../../store/rootReducer"
+import {AppRootStateType} from "../../../../../store/rootReducer"
 import Task from "./Task/Task"
 import AddElement from "../../../../Shared/AddItemForm/AddItemForm"
-import {addTaskTC, fetchTasksTC, removeTaskTC, updateTaskTC} from "../../../../../store/reducers/tasks-reducer/tasksReducer"
+import {
+    addTaskTC,
+    fetchTasksTC,
+    removeTaskTC,
+    TaskDomainType,
+    updateTaskTC
+} from "../../../../../store/reducers/tasks-reducer/tasksReducer"
 import TaskFilter from "./TasksFilter/TaskFilter"
 import s from './Tasks.module.scss'
-import {changeTodoListFilterAC, FilterType} from "../../../../../store/reducers/todoLists-reducer/todoListsReducer";
-import {TaskStatuses, TaskType} from "../../../../../api/tasks-api";
-import {useAppDispatch} from "../../../../../store/store";
+import {changeTodoListFilterAC, FilterType} from "../../../../../store/reducers/todoLists-reducer/todoListsReducer"
+import {TaskStatuses} from "../../../../../API/tasks-api"
+import {useAppDispatch} from "../../../../../hooks/useAppDispatch/useAppDispatch";
+import {RequestStatusType} from "../../../../../store/reducers/app-reducer/appReducer";
 
 type TasksPropsType = {
     todoId: string
     filter: FilterType
+    disabled?: boolean
+    todoListEntityStatus: RequestStatusType
 }
 
 const Tasks: React.FC<TasksPropsType> = ({
                                              todoId,
-                                             filter
+                                             filter,
+                                             disabled,
+                                             todoListEntityStatus
                                          }) => {
     useEffect(() => {
         dispatch(fetchTasksTC(todoId))
     }, [])
-    const tasks = useSelector<RootReducerType, TaskType[]>(state => state.tasks[todoId])
+    const tasks = useSelector<AppRootStateType, TaskDomainType[]>(state => state.tasks[todoId])
     const dispatch = useAppDispatch()
-
     const changeTaskTitle = useCallback((taskId: string, title: string) => {
         dispatch(updateTaskTC(todoId, taskId, {title}))
     }, [])
@@ -41,7 +51,7 @@ const Tasks: React.FC<TasksPropsType> = ({
         dispatch(addTaskTC(todoId, title))
     }, [])
 
-    const tasksFilter = useCallback((filter: FilterType): TaskType[] => {
+    const tasksFilter = useCallback((filter: FilterType): TaskDomainType[] => {
         switch (filter) {
             case 'active':
                 return tasks.filter(t => t.status === TaskStatuses.New)
@@ -60,12 +70,13 @@ const Tasks: React.FC<TasksPropsType> = ({
         changeTaskTitle={changeTaskTitle}
         removeTask={removeTask}
         changeTaskStatus={changeTaskStatus}
+        todoListEntityStatus={todoListEntityStatus}
     />)
 
     return (
         <div className={s.tasks}>
             <div>
-                <AddElement onChange={addTask} placeholder={'...add task'}/>
+                <AddElement onChange={addTask} placeholder={'...add task'} disabled={disabled}/>
                 <ul>
                     {taskElements}
                 </ul>

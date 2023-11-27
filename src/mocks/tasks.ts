@@ -1,4 +1,4 @@
-import {TaskPriorities, TaskStatuses} from "../api/tasks-api";
+import {TaskPriorities, TaskStatuses} from "../API/tasks-api";
 import {TasksType} from "../store/reducers/tasks-reducer/tasksReducer";
 
 
@@ -15,6 +15,7 @@ export const tasks: TasksType = {
             order: 0,
             priority: TaskPriorities.Low,
             startDate: '',
+            entityStatus: 'idle'
         },
         {
             id: 'taskId_2',
@@ -27,6 +28,7 @@ export const tasks: TasksType = {
             order: 0,
             priority: TaskPriorities.Low,
             startDate: '',
+            entityStatus: 'idle'
         },
         {
             id: 'taskId_3',
@@ -39,6 +41,7 @@ export const tasks: TasksType = {
             order: 0,
             priority: TaskPriorities.Low,
             startDate: '',
+            entityStatus: 'idle'
         },
     ],
     ['todoId_2']: [
@@ -53,6 +56,7 @@ export const tasks: TasksType = {
             order: 0,
             priority: TaskPriorities.Low,
             startDate: '',
+            entityStatus: 'idle'
         },
         {
             id: 'taskId_2',
@@ -65,6 +69,7 @@ export const tasks: TasksType = {
             order: 0,
             priority: TaskPriorities.Low,
             startDate: '',
+            entityStatus: 'idle'
         },
     ]
 }

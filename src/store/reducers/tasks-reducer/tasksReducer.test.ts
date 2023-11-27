@@ -1,5 +1,13 @@
-import {addTaskAC, removeTaskAC, setTasksAC, tasksReducer, TasksType, updateTaskAC} from "./tasksReducer";
-import {TaskPriorities, TaskStatuses} from "../../../api/tasks-api";
+import {
+    addTaskAC,
+    changeTaskEntityStatusAC,
+    removeTaskAC,
+    setTasksAC,
+    tasksReducer,
+    TasksType,
+    updateTaskAC
+} from "./tasksReducer";
+import {TaskPriorities, TaskStatuses} from "../../../API/tasks-api";
 import {tasks} from "../../../mocks/tasks";
 import {setTodoListsAC} from "../todoLists-reducer/todoListsReducer";
 
@@ -7,7 +15,7 @@ const startState: TasksType = tasks
 const newTitle = 'NEW TASK!'
 
 test('task should be added to array with tasks', () => {
-    const startState = {
+    const startState: TasksType = {
         ['todoId_1']: [
             {
                 id: 'taskId_2',
@@ -20,6 +28,7 @@ test('task should be added to array with tasks', () => {
                 order: 0,
                 priority: TaskPriorities.Low,
                 startDate: '',
+                entityStatus: 'idle'
             }
         ],
         ['todoId_2']: []
@@ -78,4 +87,13 @@ test('tasks should be set to the object', () => {
 
     expect(endState[keys[0]].length).toBe(3)
     expect(endState[keys[1]].length).toBe(0)
+})
+
+test('title of task should be changed', () => {
+    const endState = tasksReducer(startState, changeTaskEntityStatusAC('todoId_1', 'taskId_2', 'loading'))
+
+    expect(endState['todoId_1'][0].entityStatus).toBe('idle')
+    expect(endState['todoId_1'][2].entityStatus).toBe('idle')
+    expect(endState['todoId_1'][1].entityStatus).toBe('loading')
+    expect(endState['todoId_2'][1].entityStatus).toBe('idle')
 })

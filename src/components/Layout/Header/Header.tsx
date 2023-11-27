@@ -1,17 +1,24 @@
-import React from 'react';
-import {AppBar, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
-import {useDispatch, useSelector} from "react-redux";
-import {toggleModeAC} from "../../../store/reducers/mode-reducer/modeReducer";
-import {RootReducerType} from "../../../store/rootReducer";
-import BedtimeOutlinedIcon from '@mui/icons-material/BedtimeOutlined';
-import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import React from 'react'
+import AppBar from "@mui/material/AppBar"
+import Button from "@mui/material/Button"
+import Container from "@mui/material/Container"
+import IconButton from "@mui/material/IconButton"
+import Toolbar from "@mui/material/Toolbar"
+import Typography from "@mui/material/Typography"
+import MenuIcon from '@mui/icons-material/Menu'
+import {useDispatch, useSelector} from "react-redux"
+import {RequestStatusType, toggleAppModeAC} from "../../../store/reducers/app-reducer/appReducer"
+import {AppRootStateType} from "../../../store/rootReducer"
+import BedtimeOutlinedIcon from '@mui/icons-material/BedtimeOutlined'
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
+import LinearProgress from "@mui/material/LinearProgress"
+import s from './Header.module.css'
 
 const Header = () => {
     const dispatch = useDispatch()
-    const isDarkMode = useSelector<RootReducerType, boolean>(state => state.mode.isDarkMode)
-    const toggleThemeHandler = () => dispatch(toggleModeAC())
-
+    const isDarkMode = useSelector<AppRootStateType, boolean>(state => state.app.isDarkMode)
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const toggleThemeHandler = () => dispatch(toggleAppModeAC())
 
     return (
         <AppBar position="static">
@@ -33,12 +40,13 @@ const Header = () => {
                         {
                             isDarkMode
                                 ? <BedtimeOutlinedIcon/>
-                                : <LightModeOutlinedIcon style={{ color: '#fff' }}/>
+                                : <LightModeOutlinedIcon style={{color: '#fff'}}/>
                         }
                     </IconButton>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </Container>
+            {status === 'loading' && <LinearProgress className={s.linear_loader}/>}
         </AppBar>
     );
 };
