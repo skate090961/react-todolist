@@ -7,3 +7,6 @@ export const store = createStore(
     rootReducer,
     composeWithDevTools(applyMiddleware(thunk))
 )
+
+//@ts-ignore
+window.store = store

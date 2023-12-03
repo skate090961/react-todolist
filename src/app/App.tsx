@@ -1,28 +1,37 @@
-import React from 'react';
-import TodoLists from "../components/Pages/TodoLists/TodoLists";
-import Header from "../components/Layout/Header/Header";
-import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
-import ThemeProvider from "@mui/private-theming/ThemeProvider";
-import {darkTheme, lightTheme} from "../assets/styles/themes";
+import React, {useEffect} from 'react';
+import '../assets/styles/global.scss'
+import {Layout} from "../components/Layout/Layout";
+import {Pages} from "../components/Pages/Pages";
+import {useAppDispatch} from "../hooks/useAppDispatch/useAppDispatch";
+import {initializeAppTC} from "../store/reducers/app-reducer/appReducer";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../store/rootReducer";
-import '../assets/styles/global.scss'
-import {CustomizedSnackbars} from "../components/Shared/ErrorSnackbar/ErrorSnackbar";
+import {darkTheme, lightTheme} from "../assets/styles/themes";
+import {CircularProgress, ThemeProvider} from "@mui/material";
+import Loader from "../components/Shared/Loader/Loader";
 
 const App = () => {
     const isDarkMode = useSelector<AppRootStateType, boolean>(state => state.app.isDarkMode)
+    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
     const theme = isDarkMode ? darkTheme : lightTheme
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, [])
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            <Header/>
-            <Container>
-                <TodoLists/>
-            </Container>
-            <CustomizedSnackbars/>
-        </ThemeProvider>
+        <>
+            {!isInitialized
+                ?
+                <Loader/>
+                :
+                <ThemeProvider theme={theme}>
+                    <Layout>
+                        <Pages/>
+                    </Layout>
+                </ThemeProvider>
+            }
+        </>
     )
 }
 

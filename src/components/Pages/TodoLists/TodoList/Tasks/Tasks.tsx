@@ -16,6 +16,7 @@ import {changeTodoListFilterAC, FilterType} from "../../../../../store/reducers/
 import {TaskStatuses} from "../../../../../API/tasks-api"
 import {useAppDispatch} from "../../../../../hooks/useAppDispatch/useAppDispatch";
 import {RequestStatusType} from "../../../../../store/reducers/app-reducer/appReducer";
+import {useFetchTasks} from "./useFetchTasks";
 
 type TasksPropsType = {
     todoId: string
@@ -30,10 +31,7 @@ const Tasks: React.FC<TasksPropsType> = ({
                                              disabled,
                                              todoListEntityStatus
                                          }) => {
-    useEffect(() => {
-        dispatch(fetchTasksTC(todoId))
-    }, [])
-    const tasks = useSelector<AppRootStateType, TaskDomainType[]>(state => state.tasks[todoId])
+    const {tasks} = useFetchTasks(todoId)
     const dispatch = useAppDispatch()
     const changeTaskTitle = useCallback((taskId: string, title: string) => {
         dispatch(updateTaskTC(todoId, taskId, {title}))

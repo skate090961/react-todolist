@@ -28,10 +28,10 @@ export type TodoListType = {
     order: number
     title: string
 }
-export type ResponseType<D = {}> = {
+export type ResponseType<D = {}, E=any> = {
     resultCode: RESULT_CODE
     messages: string[],
-    fieldsErrors: any[],
+    fieldsErrors: E[],
     data: D
 }
 type CreateTodoListResponseType = { item: TodoListType }

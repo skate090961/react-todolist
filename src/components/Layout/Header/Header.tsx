@@ -6,19 +6,24 @@ import IconButton from "@mui/material/IconButton"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import MenuIcon from '@mui/icons-material/Menu'
-import {useDispatch, useSelector} from "react-redux"
+import {useSelector} from "react-redux"
 import {RequestStatusType, toggleAppModeAC} from "../../../store/reducers/app-reducer/appReducer"
 import {AppRootStateType} from "../../../store/rootReducer"
 import BedtimeOutlinedIcon from '@mui/icons-material/BedtimeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 import LinearProgress from "@mui/material/LinearProgress"
 import s from './Header.module.css'
+import {logOutTC} from "../../../store/reducers/auth-reducer/auth-reducer";
+import {useAppDispatch} from "../../../hooks/useAppDispatch/useAppDispatch";
 
 const Header = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
+    const isAuth = useSelector<AppRootStateType, boolean>(state => state.auth.isAuth)
     const isDarkMode = useSelector<AppRootStateType, boolean>(state => state.app.isDarkMode)
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const toggleThemeHandler = () => dispatch(toggleAppModeAC())
+
+    const logOutHandler = () => dispatch(logOutTC())
 
     return (
         <AppBar position="static">
@@ -43,7 +48,7 @@ const Header = () => {
                                 : <LightModeOutlinedIcon style={{color: '#fff'}}/>
                         }
                     </IconButton>
-                    <Button color="inherit">Login</Button>
+                    {isAuth && <Button color="inherit" onClick={logOutHandler}>Log Out</Button>}
                 </Toolbar>
             </Container>
             {status === 'loading' && <LinearProgress className={s.linear_loader}/>}

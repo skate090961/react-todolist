@@ -2,7 +2,6 @@ import {RESULT_CODE, todoListsAPI, TodoListType} from "../../../API/todoLists-ap
 import {Dispatch} from "redux";
 import {RequestStatusType, setAppErrorMessageAC, setAppStatusAC} from "../app-reducer/appReducer";
 import {handleServerNetworkError} from "../../../utils/error-utils";
-import {AxiosError} from "axios";
 
 const initialState: TodoListDomainType[] = []
 
@@ -80,6 +79,7 @@ export const addTodoListTC = (title: string) => async (dispatch: Dispatch) => {
         dispatch(setAppStatusAC('succeeded'))
     } catch (e: any) {
         handleServerNetworkError(e, dispatch)
+        dispatch(setAppStatusAC('failed'))
     }
 }
 
