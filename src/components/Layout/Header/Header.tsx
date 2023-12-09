@@ -13,8 +13,8 @@ import BedtimeOutlinedIcon from '@mui/icons-material/BedtimeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 import LinearProgress from "@mui/material/LinearProgress"
 import s from './Header.module.css'
-import {logOutTC} from "../../../store/reducers/auth-reducer/auth-reducer";
-import {useAppDispatch} from "../../../hooks/useAppDispatch/useAppDispatch";
+import {useAppDispatch} from "../../../hooks/useAppDispatch/useAppDispatch"
+import {logOutTC} from "../../../store/reducers/auth-reducer/auth-thunk"
 
 const Header = () => {
     const dispatch = useAppDispatch()

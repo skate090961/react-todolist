@@ -1,67 +1,29 @@
-import {authAPI, MeResponseType, LoginParamsType} from "../../../API/auth-api";
+import {authAPI, LoginParamsType, MeResponseType} from "../../../API/auth-api";
 import {Dispatch} from "redux";
 import {setAppStatusAC} from "../app-reducer/appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utils";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
-    authUser: null,
+    authUser: null as MeResponseType | null,
     isAuth: false
 }
 
-type AuthStateType = {
-    authUser: null | MeResponseType
-    isAuth: boolean
-}
-type ActionsType =
-    | ReturnType<typeof setAuthUserAC>
-    | ReturnType<typeof setIsAuthAC>
-
-export const authReducer = (state: AuthStateType = initialState, action: ActionsType) => {
-    switch (action.type) {
-        case 'SET-AUTH-USER':
-            return {...state, authUser: action.authUser, isAuth: true}
-        case 'SET-IS-AUTH':
-            return {...state, isAuth: action.isAuth}
-        default:
-            return state
-    }
-}
-
-//action
-export const setAuthUserAC = (authUser: MeResponseType) =>
-    ({type: 'SET-AUTH-USER', authUser} as const)
-export const setIsAuthAC = (isAuth: boolean) =>
-    ({type: 'SET-IS-AUTH', isAuth} as const)
-
-//thunk
-export const loginTC = (login: LoginParamsType) => async (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    try {
-        const loginResponse = await authAPI.login(login)
-        if (loginResponse.resultCode === 0) {
-            dispatch(setIsAuthAC(true))
-            dispatch(setAppStatusAC('succeeded'))
-        } else {
-            handleServerAppError(loginResponse, dispatch)
-            return loginResponse.fieldsErrors
+const authSlice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {
+        setAuthUserAC: (state, action: PayloadAction<{authUser: null | MeResponseType}>) => {
+            state.authUser = action.payload.authUser
+            state.isAuth = true
+        },
+        setIsAuthAC: (state, action: PayloadAction<{isAuth: boolean}>) => {
+            state.isAuth = action.payload.isAuth
         }
-    } catch (e: any) {
-        handleServerNetworkError(e.message, dispatch)
     }
-}
+})
 
-export const logOutTC = () => async (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC('loading'))
-    try {
-        const logOutResponse = await authAPI.logOut()
-        if (logOutResponse.resultCode === 0) {
-            dispatch(setIsAuthAC(false))
-            dispatch(setAppStatusAC('succeeded'))
-        } else {
-            handleServerAppError(logOutResponse, dispatch)
-        }
-    } catch (e: any) {
-        handleServerNetworkError(e.message, dispatch)
-    }
-}
+export const authReducer = authSlice.reducer
+export const {setAuthUserAC, setIsAuthAC} = authSlice.actions
+
 

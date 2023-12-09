@@ -1,11 +1,8 @@
-import React, {useCallback, useEffect} from 'react'
-import {useSelector} from "react-redux"
-import {AppRootStateType} from "../../../../../store/rootReducer"
+import React, {useCallback} from 'react'
 import Task from "./Task/Task"
 import AddElement from "../../../../Shared/AddItemForm/AddItemForm"
 import {
     addTaskTC,
-    fetchTasksTC,
     removeTaskTC,
     TaskDomainType,
     updateTaskTC
@@ -43,7 +40,7 @@ const Tasks: React.FC<TasksPropsType> = ({
         dispatch(updateTaskTC(todoId, taskId, {status}))
     }, [])
     const changeTaskFilter = useCallback((filter: FilterType) => {
-        dispatch(changeTodoListFilterAC(todoId, filter))
+        dispatch(changeTodoListFilterAC({todoId, filter}))
     }, [])
     const addTask = useCallback((title: string) => {
         dispatch(addTaskTC(todoId, title))

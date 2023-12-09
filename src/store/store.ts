@@ -1,12 +1,9 @@
-import {applyMiddleware, legacy_createStore as createStore} from "redux";
-import rootReducer from "./rootReducer";
-import {composeWithDevTools} from 'redux-devtools-extension';
+import rootReducer, {AppRootStateType} from "./rootReducer";
 import thunk from "redux-thunk";
+import {configureStore} from "@reduxjs/toolkit";
+import {ThunkMiddlewareFor} from "@reduxjs/toolkit/dist/getDefaultMiddleware";
 
-export const store = createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(thunk))
-)
-
-//@ts-ignore
-window.store = store
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk as ThunkMiddlewareFor<AppRootStateType>)
+})

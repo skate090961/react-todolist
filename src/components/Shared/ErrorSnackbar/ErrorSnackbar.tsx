@@ -20,7 +20,7 @@ export function CustomizedSnackbars() {
         if (reason === 'clickaway') {
             return
         }
-        dispatch(setAppErrorMessageAC(null))
+        dispatch(setAppErrorMessageAC({error: null}))
     }
 
     return (

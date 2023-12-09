@@ -34,14 +34,14 @@ test('task should be added to array with tasks', () => {
         ['todoId_2']: []
     }
     const newTask = tasks['todoId_1'][0]
-    const endState = tasksReducer(startState, addTaskAC(newTask))
+    const endState = tasksReducer(startState, addTaskAC({task: newTask}))
 
     expect(endState['todoId_1'].length).toBe(2)
     expect(endState['todoId_1'][0].id).toBe('taskId_1')
     expect(endState['todoId_1'][1].id).toBe('taskId_2')
 })
 test('title of task should be changed', () => {
-    const endState = tasksReducer(startState, updateTaskAC('todoId_1', 'taskId_2', {title: newTitle}))
+    const endState = tasksReducer(startState, updateTaskAC({todoId: 'todoId_1', taskId: 'taskId_2', model: {title: newTitle}}))
 
     expect(endState['todoId_1'][0].title).toBe('HTML')
     expect(endState['todoId_1'][2].title).toBe('JavaScript')
@@ -49,7 +49,7 @@ test('title of task should be changed', () => {
     expect(endState['todoId_2'][1].title).toBe('Salt')
 })
 test('status of task should be changed', () => {
-    const endState = tasksReducer(startState, updateTaskAC('todoId_1', 'taskId_2', {status: TaskStatuses.Completed}))
+    const endState = tasksReducer(startState, updateTaskAC({todoId: 'todoId_1', taskId: 'taskId_2', model: {status: TaskStatuses.Completed}}))
 
     expect(endState['todoId_1'][0].status === TaskStatuses.Completed).toBeTruthy()
     expect(endState['todoId_1'][1].status === TaskStatuses.Completed).toBeTruthy()
@@ -57,7 +57,7 @@ test('status of task should be changed', () => {
     expect(endState['todoId_2'][1].status === TaskStatuses.Completed).toBeTruthy()
 })
 test('task should be removed from array with tasks', () => {
-    const endState = tasksReducer(startState, removeTaskAC('todoId_1', 'taskId_2'))
+    const endState = tasksReducer(startState, removeTaskAC({todoId: 'todoId_1', taskId: 'taskId_2'}))
 
     expect(endState['todoId_1'][1].id).toBe('taskId_3')
     expect(endState['todoId_1'].length).toBe(2)
@@ -70,7 +70,7 @@ test('empty arrays should be added when we set todolists', () => {
         {id: 'todoId_2', title: 'Buy', order: 0, addedDate: ''}
     ]
 
-    const endState = tasksReducer({}, setTodoListsAC(todoLists))
+    const endState = tasksReducer({}, setTodoListsAC({todoLists}))
     const keys = Object.keys(endState)
 
     expect(keys.length).toBe(2)
@@ -81,7 +81,7 @@ test('tasks should be set to the object', () => {
     const endState = tasksReducer({
             ['todoId_1']: [], ['todoId_2']: []
         },
-        setTasksAC(tasks['todoId_1'], 'todoId_1')
+        setTasksAC({tasks: tasks['todoId_1'], todoId: 'todoId_1'})
     )
     const keys = Object.keys(endState)
 
@@ -90,7 +90,7 @@ test('tasks should be set to the object', () => {
 })
 
 test('title of task should be changed', () => {
-    const endState = tasksReducer(startState, changeTaskEntityStatusAC('todoId_1', 'taskId_2', 'loading'))
+    const endState = tasksReducer(startState, changeTaskEntityStatusAC({todoId: 'todoId_1', taskId: 'taskId_2', status: 'loading'}))
 
     expect(endState['todoId_1'][0].entityStatus).toBe('idle')
     expect(endState['todoId_1'][2].entityStatus).toBe('idle')

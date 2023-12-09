@@ -11,8 +11,8 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {useAppDispatch} from "../../../hooks/useAppDispatch/useAppDispatch";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../../store/rootReducer";
-import {loginTC} from "../../../store/reducers/auth-reducer/auth-reducer";
 import {Navigate} from "react-router-dom";
+import {loginTC} from "../../../store/reducers/auth-reducer/auth-thunk";
 
 type InputsType = {
     email: string

@@ -11,7 +11,7 @@ test('current user should be authorized', () => {
         login: 'login',
         email: 'test@test.com'
     }
-    const endState = authReducer(startState, setAuthUserAC(action))
+    const endState = authReducer(startState, setAuthUserAC({authUser: action}))
     expect(endState.isAuth).toBeTruthy()
     expect(endState.authUser?.email).toBe(action.email)
     expect(endState.authUser?.login).toBe(action.login)
@@ -19,6 +19,6 @@ test('current user should be authorized', () => {
 })
 
 test('auth status should be changed', () => {
-    const endState = authReducer(startState, setIsAuthAC(true))
+    const endState = authReducer(startState, setIsAuthAC({isAuth: true}))
     expect(endState.isAuth).toBeTruthy()
 })

@@ -1,6 +1,4 @@
-import {AppStateType} from "../store/reducers/app-reducer/appReducer";
-
-export const appMock: AppStateType = {
+export const appMock: any = {
     isDarkMode: false,
     status: 'idle',
     error: null,
